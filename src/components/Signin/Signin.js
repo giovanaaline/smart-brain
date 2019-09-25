@@ -1,5 +1,4 @@
 import React from 'react';
-import { throwStatement } from '@babel/types';
 class Signin  extends React.Component {
   constructor (props){
     super(props);
@@ -18,13 +17,20 @@ class Signin  extends React.Component {
   onSubmitSignIn = () => {
     fetch('http://localhost:3000/signin', {
       method: 'post',
-      headers: {'Content-Type': 'aplication/json'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.signInEmail,
         password: this.state.signInPassword
       })
     })
-    this.props.onRouteChange('home');
+    .then(response => response.json())
+    .then(data => {
+      if (data === 'sucesso')
+        this.props.onRouteChange('home');
+      else
+        console.log(data);
+    })
+    
   }
   render(){
     const {onRouteChange} = this.props;
@@ -49,7 +55,7 @@ class Signin  extends React.Component {
       <input 
       onClick ={this.onSubmitSignIn}
       className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-      type="submit" 
+      type="button" 
       value="Sign in" />
     </div>
     <div className="lh-copy mt3">
