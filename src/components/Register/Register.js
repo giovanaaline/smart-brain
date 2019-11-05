@@ -28,7 +28,13 @@ class Register extends React.Component {
         name: this.state.name
       })
     })
-    .then(response => response.json())
+    .then(function(response){
+      console.log(response.status);
+      if (response.status == 400)
+        alert("erro no registro. Você já se registrou");
+      else
+        return response.json();
+    })
     .then(user => {
       if (user){
         this.props.loadUser(user);
