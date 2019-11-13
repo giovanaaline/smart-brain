@@ -28,10 +28,14 @@ class Register extends React.Component {
         name: this.state.name
       })
     })
-    .then(function(response){
-      console.log(response.status);
-      if (response.status == 400)
-        alert("erro no registro. Você já se registrou");
+    .then(function(response){    
+      console.log(response.status);  
+      if (response.status === 410)
+        alert("Dados já registrados");
+      else if (response.status === 411)
+        alert("Dados inválidos para cadastro");
+      else if (response.status === 412)
+        alert("E-mail inválido");
       else
         return response.json();
     })

@@ -23,14 +23,22 @@ class Signin  extends React.Component {
         password: this.state.signInPassword
       })
     })
-    .then(response => response.json())
+    .then(function (response) {
+        if (response.status === 411)
+          alert('dados inválidos');
+        else if (response.status === 412)
+          alert('e-mail inválido');
+        else if (response.status === 400){
+          alert('erro de credencial');
+        }
+        else         
+          return response.json();
+      })
     .then(user => {
-      if (user.id){
+      if (user){
         this.props.loadUser(user);
         this.props.onRouteChange('home');
       }       
-      else
-        alert(user);
     })
     
   }
